@@ -34,6 +34,9 @@
 #define DEVICE "/dev/cedar_dev"
 #define EXPORT __attribute__ ((visibility ("default")))
 
+static pthread_mutex_t open_lock = PTHREAD_MUTEX_INITIALIZER;
+static int open_count;
+
 static struct cedrus
 {
 	int fd;
@@ -46,14 +49,20 @@ static struct cedrus
 
 EXPORT struct cedrus *cedrus_open(void)
 {
-	if (ve.fd != -1)
-		return NULL;
+	pthread_mutex_lock(&open_lock);
+	if (ve.fd != -1) {
+		open_count++;
+		pthread_mutex_unlock(&open_lock);
+		return &ve;
+	}
 
 	struct cedarv_env_infomation info;
 
 	ve.fd = open(DEVICE, O_RDWR);
-	if (ve.fd == -1)
+	if (ve.fd == -1) {
+		pthread_mutex_unlock(&open_lock);
 		return NULL;
+	}
 
 	if (ioctl(ve.fd, IOCTL_GET_ENV_INFO, (void *)(&info)) == -1)
 		goto close;
@@ -89,6 +98,8 @@ EXPORT struct cedrus *cedrus_open(void)
 
 	writel(0x00130007, ve.regs + VE_CTRL);
 
+	open_count++;
+	pthread_mutex_unlock(&open_lock);
 	return &ve;
 
 unmap:
@@ -96,13 +107,22 @@ unmap:
 close:
 	close(ve.fd);
 	ve.fd = -1;
+	pthread_mutex_unlock(&open_lock);
 	return NULL;
 }
 
 EXPORT void cedrus_close(struct cedrus *dev)
 {
-	if (dev->fd == -1)
+	pthread_mutex_lock(&open_lock);
+	if (dev->fd == -1) {
+		pthread_mutex_unlock(&open_lock);
 		return;
+	}
+
+	if (--open_count) {
+		pthread_mutex_unlock(&open_lock);
+		return;
+	}
 
 	ioctl(dev->fd, IOCTL_DISABLE_VE + dev->ioctl_offset, 0);
 	ioctl(dev->fd, IOCTL_ENGINE_REL, 0);
@@ -114,6 +134,7 @@ EXPORT void cedrus_close(struct cedrus *dev)
 
 	close(dev->fd);
 	dev->fd = -1;
+	pthread_mutex_unlock(&open_lock);
 }
 
 EXPORT int cedrus_get_ve_version(struct cedrus *dev)

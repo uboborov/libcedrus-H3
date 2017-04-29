@@ -25,7 +25,7 @@
 
 typedef struct cedrus cedrus_t;
 
-enum cedrus_engine { CEDRUS_ENGINE_MPEG = 0x0, CEDRUS_ENGINE_H264 = 0x1, CEDRUS_ENGINE_HEVC = 0x4 };
+enum cedrus_engine { CEDRUS_ENGINE_MPEG = 0x0, CEDRUS_ENGINE_H264 = 0x1, CEDRUS_ENGINE_HEVC = 0x4, CEDRUS_ENGINE_H264_ENC = 0xb };
 
 cedrus_t *cedrus_open(void);
 void cedrus_close(cedrus_t *dev);
