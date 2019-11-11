@@ -147,10 +147,18 @@ EXPORT int cedrus_get_ve_version(struct cedrus *dev)
 
 EXPORT int cedrus_ve_wait(struct cedrus *dev, int timeout)
 {
+	unsigned int engine_wait = IOCTL_WAIT_VE_DE;
+	unsigned int reg = 0;
 	if (!dev)
 		return -1;
 
-	return ioctl(dev->fd, IOCTL_WAIT_VE_DE, timeout);
+	if (((reg = readl(dev->regs + VE_CTRL)) & CEDRUS_ENGINE_H264_ENC) == CEDRUS_ENGINE_H264_ENC) {
+		engine_wait = IOCTL_WAIT_VE_DE + dev->ioctl_offset;
+	}
+
+	//printf("we engine %04X, we wait %d\n", reg, engine_wait);
+
+	return ioctl(dev->fd, engine_wait, timeout);
 }
 
 EXPORT void *cedrus_ve_get(struct cedrus *dev, enum cedrus_engine engine, uint32_t flags)
