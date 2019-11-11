@@ -1,3 +1,6 @@
+## UPD:
+Improved to work with EN and DE depended to the value of engine select bits.
+
 libcedrus provides low-level access to the video engine of Allwinner sunxi SoCs.
 
 Installation:
