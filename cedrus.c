@@ -243,3 +243,13 @@ EXPORT uint32_t cedrus_mem_get_bus_addr(const struct cedrus_mem *mem)
 
 	return phys2bus(mem->phys);
 }
+
+EXPORT void cedrus_ve_reset(struct cedrus *dev)
+{
+	if (!dev)
+		return;
+
+	writel(0x1, dev->regs + VE_RESET);
+	usleep(1000);
+	writel(0x0, dev->regs + VE_RESET);
+}

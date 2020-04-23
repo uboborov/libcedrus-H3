@@ -33,6 +33,7 @@ int cedrus_get_ve_version(cedrus_t *dev);
 int cedrus_ve_wait(cedrus_t *dev, int timeout);
 void *cedrus_ve_get(cedrus_t *dev, enum cedrus_engine engine, uint32_t flags);
 void cedrus_ve_put(cedrus_t *dev);
+void cedrus_ve_reset(cedrus_t *dev);
 
 typedef struct cedrus_mem cedrus_mem_t;
 

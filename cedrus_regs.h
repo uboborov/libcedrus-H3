@@ -32,20 +32,24 @@ static inline uint32_t readl(void *addr)
 	return *((volatile uint32_t *) addr);
 }
 
-#define VE_CTRL				0x000
-#define VE_EXTRA_OUT_FMT_OFFSET		0x0e8
-#define VE_VERSION			0x0f0
+#define VE_CTRL				         0x000
+#define VE_RESET                     0x001
+#define VE_OUTPUT_CHROMA_OFFSET      0x0c4
+#define VE_OUTPUT_STRIDE             0x0c8
+#define VE_EXTRA_OUT_FMT_OFFSET		 0x0e8
+#define VE_OUTPUT_FORMAT             0x0ec
+#define VE_VERSION			         0x0f0
 
 #define VE_MPEG_PIC_HDR			0x100
 #define VE_MPEG_VOP_HDR			0x104
 #define VE_MPEG_SIZE			0x108
 #define VE_MPEG_FRAME_SIZE		0x10c
-#define VE_MPEG_MBA			0x110
+#define VE_MPEG_MBA			    0x110
 #define VE_MPEG_CTRL			0x114
 #define VE_MPEG_TRIGGER			0x118
 #define VE_MPEG_STATUS			0x11c
-#define VE_MPEG_TRBTRD_FIELD		0x120
-#define VE_MPEG_TRBTRD_FRAME		0x124
+#define VE_MPEG_TRBTRD_FIELD	0x120
+#define VE_MPEG_TRBTRD_FRAME	0x124
 #define VE_MPEG_VLD_ADDR		0x128
 #define VE_MPEG_VLD_OFFSET		0x12c
 #define VE_MPEG_VLD_LEN			0x130
@@ -59,11 +63,11 @@ static inline uint32_t readl(void *addr)
 #define VE_MPEG_FWD_CHROMA		0x154
 #define VE_MPEG_BACK_LUMA		0x158
 #define VE_MPEG_BACK_CHROMA		0x15c
-#define VE_MPEG_IQ_MIN_INPUT		0x180
+#define VE_MPEG_IQ_MIN_INPUT	0x180
 #define VE_MPEG_QP_INPUT		0x184
 
 #define VE_MPEG_JPEG_SIZE		0x1b8
-#define VE_MPEG_JPEG_RES_INT		0x1c0
+#define VE_MPEG_JPEG_RES_INT	0x1c0
 
 #define VE_MPEG_ROT_LUMA		0x1cc
 #define VE_MPEG_ROT_CHROMA		0x1d0
@@ -92,7 +96,9 @@ static inline uint32_t readl(void *addr)
 #define VE_H264_OUTPUT_FRAME_IDX	0x24c
 #define VE_H264_EXTRA_BUFFER1		0x250
 #define VE_H264_EXTRA_BUFFER2		0x254
-#define VE_H264_BASIC_BITS		0x2dc
+#define VE_H264_MB_ADDR             0x260
+#define VE_H264_ERROR               0x2b8
+#define VE_H264_BASIC_BITS		    0x2dc
 #define VE_H264_RAM_WRITE_PTR		0x2e0
 #define VE_H264_RAM_WRITE_DATA		0x2e4
 
@@ -103,7 +109,7 @@ static inline uint32_t readl(void *addr)
 #define VE_SRAM_H264_SCALING_LISTS	0x800
 
 #define VE_HEVC_NAL_HDR			0x500
-#define VE_HEVC_SPS			0x504
+#define VE_HEVC_SPS			    0x504
 #define VE_HEVC_PIC_SIZE		0x508
 #define VE_HEVC_PCM_HDR			0x50c
 #define VE_HEVC_PPS0			0x510
@@ -147,9 +153,9 @@ static inline uint32_t readl(void *addr)
 #define VE_ISP_INPUT_CHROMA		0xa7c
 
 #define VE_AVC_PARAM			0xb04
-#define VE_AVC_QP			0xb08
+#define VE_AVC_QP			    0xb08
 #define VE_AVC_MOTION_EST		0xb10
-#define VE_AVC_CTRL			0xb14
+#define VE_AVC_CTRL			    0xb14
 #define VE_AVC_TRIGGER			0xb18
 #define VE_AVC_STATUS			0xb1c
 #define VE_AVC_BASIC_BITS		0xb20
