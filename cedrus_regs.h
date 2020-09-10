@@ -33,7 +33,7 @@ static inline uint32_t readl(void *addr)
 }
 
 #define VE_CTRL				         0x000
-#define VE_RESET                     0x001
+#define VE_RESET                     0x004
 #define VE_OUTPUT_CHROMA_OFFSET      0x0c4
 #define VE_OUTPUT_STRIDE             0x0c8
 #define VE_EXTRA_OUT_FMT_OFFSET		 0x0e8
